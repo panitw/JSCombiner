@@ -1,0 +1,19 @@
+This project is the tool to combine javascript files together to one single file using
+the same concept as include file in C language. Header has to be added to each file to
+tell the combiner the order of the files to be combined.
+
+Here is the example of the header
+
+//#include "script1.js"
+//#include "../../script2.js"
+//#include <script3.js>
+//#include <module1/script4.js>
+
+If the file name resides within two double quotes, the compiler will read the file at
+the reference path of the script that has this include header. If the file name reside
+within brackets, the compiler will look for the file start from the path that specified
+together with -i parameter (include path).
+
+Here's the usage of the command
+
+jscombiner -i <include_path> <script_file1> <script_file2> <script_file3> ...
