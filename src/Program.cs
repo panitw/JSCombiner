@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JSCombiner.Engine;
+using System.IO;
 
 namespace JSCombiner {
     class Program {
@@ -26,7 +27,13 @@ namespace JSCombiner {
 
             //Pass all parameter to the combiner engine
             if (param != null) {
-                
+                try {
+                    string output = CombinerEngine.Execute(param);
+                    File.WriteAllText(param.OutputFile, output);
+                }
+                catch (Exception ex) {
+                    PrintError(ex.Message);
+                }
             }
 
         }
@@ -43,21 +50,33 @@ namespace JSCombiner {
                     if (args.Length > i) {
                         includePath = args[i];
                     } else {
-                        throw new Exception("Include path is not specified");
+                        throw new Exception("Include path is not specified with switch -i");
                     }
                 } else
-                    if (args[i] == "-o") {
-                        i++;
-                        if (args.Length > i) {
-                            outputFile = args[i];
-                        } else {
-                            throw new Exception("Output file is not specified");
-                        }
+                if (args[i] == "-o") {
+                    i++;
+                    if (args.Length > i) {
+                        outputFile = args[i];
                     } else {
-                        for (int j = i; j < args.Length; j++) {
-                            inputFileList.Add(args[j]);
-                        }
+                        throw new Exception("Output file is not specified with switch -o");
                     }
+                }  else
+                if (args[i] == "-p") {
+                    i++;
+                    if (args.Length > i) {
+                        outputFile = args[i];
+                    } else {
+                        throw new Exception("Source File scan pattern is not specified with switch -p");
+                    }
+                } else {
+                    for (int j = i; j < args.Length; j++) {
+                        inputFileList.Add(args[j]);
+                    }
+                }
+            }
+
+            if (outputFile == null) {
+                throw new Exception("No output file specified.");
             }
 
             if (inputFileList.Count == 0) {
@@ -77,14 +96,15 @@ namespace JSCombiner {
         }
 
         public static void PrintUsage() {
-            Console.WriteLine("Usage:\n");
-            Console.WriteLine("jscombiner [-?] [-i <include_path>] -o <output_file> <script1.js> [<script2.js> <script3.js> ...]");
+            Console.WriteLine("\nUsage:\n");
+            Console.WriteLine("jscombiner [-?] [-i <includePath>] [-p <sourceFilePattern>] -o <outputFile> <inputFile/dir> [<inputFile/dir> <inputFile/dir> ...]\n");
             Console.WriteLine("Parameters:\n");
             Console.WriteLine("  -?    Show this help");
             Console.WriteLine("  -i    Specify the include path which will be use when script is referred in");
-            Console.WriteLine("        bracket format (<script.js>). This option is optional.");
-            Console.WriteLine("  -o    Specify the output file. This option is mandatory.\n\n");
-            Console.WriteLine("There has to be at least one input file.");
+            Console.WriteLine("        bracket format (<script.js>).");
+            Console.WriteLine("  -o    Specify the output file. This option is mandatory.");
+            Console.WriteLine("  -p    Specify the source file scan pattern. Default is *.js\n\n");
+            Console.WriteLine("There has to be at least one input file or directory.");
         }
 
     }

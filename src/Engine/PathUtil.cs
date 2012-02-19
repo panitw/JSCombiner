@@ -10,9 +10,13 @@ namespace JSCombiner.Engine {
 
         public static string GetFullPath (string originFile, string referencedFile, string includePath) {
             if (referencedFile.StartsWith("<") && referencedFile.EndsWith(">")) {
-                DirectoryInfo dirInfo = new DirectoryInfo(includePath);
-                string path = Path.Combine(dirInfo.FullName, referencedFile.TrimStart('<').TrimEnd('>'));
-                return Path.GetFullPath(path);
+                if (includePath != null) {
+                    DirectoryInfo dirInfo = new DirectoryInfo(includePath);
+                    string path = Path.Combine(dirInfo.FullName, referencedFile.TrimStart('<').TrimEnd('>'));
+                    return Path.GetFullPath(path);
+                } else {
+                    throw new Exception("Bracket style reference is used but the Include Path was not specified. ("+originFile+")");
+                }
             } else
             if (referencedFile.StartsWith("\"") && referencedFile.EndsWith("\"")) {
                 FileInfo fileInfo = new FileInfo(originFile);
