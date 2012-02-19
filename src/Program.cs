@@ -101,7 +101,7 @@ namespace JSCombiner {
             Console.WriteLine("Parameters:\n");
             Console.WriteLine("  -?    Show this help");
             Console.WriteLine("  -i    Specify the include path which will be use when script is referred in");
-            Console.WriteLine("        bracket format (<script.js>).");
+            Console.WriteLine("        bracket format (<script.js>). This option is optional.");
             Console.WriteLine("  -o    Specify the output file. This option is mandatory.");
             Console.WriteLine("  -p    Specify the source file scan pattern. Default is *.js\n\n");
             Console.WriteLine("There has to be at least one input file or directory.");
