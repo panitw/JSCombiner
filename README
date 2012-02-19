@@ -16,12 +16,13 @@ together with -i parameter (include path).
 
 Here's the usage of the command
 
-jscombiner [-?] [-i <include_path>] -o <output_file> <script1.js> [<script2.js> <script3.js> ...]
+jscombiner [-?] [-i <includePath>] [-p <sourceFilePattern>] -o <outputFile> <inputFile/dir> [<inputFile/dir> <inputFile/dir> ...]
 
 Parameters:
   -?    Show this help
   -i    Specify the include path which will be use when script is referred in
         bracket format (<script.js>). This option is optional.
   -o    Specify the output file. This option is mandatory.
+  -p    Specify the source file scan pattern. Default is *.js
   
 There has to be at least one input file.
