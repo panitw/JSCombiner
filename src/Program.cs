@@ -14,10 +14,10 @@ namespace JSCombiner {
             //Check parameters
             if (args.Length == 0 || args[0] == "-?") {
                 PrintUsage();
-                return;
             } else {
                 try {
                     param = ParseParameter(args);
+                    param.WorkingPath = Environment.CurrentDirectory;
                 }
                 catch (Exception ex) {
                     PrintError(ex.Message);
@@ -28,6 +28,7 @@ namespace JSCombiner {
             if (param != null) {
                 
             }
+
         }
 
         public static EngineParameter ParseParameter (string[] args) {
