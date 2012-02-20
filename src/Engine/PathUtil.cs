@@ -73,7 +73,9 @@ namespace JSCombiner.Engine {
                 }
             }
             finally {
-                reader.Close();
+                if (reader != null) {
+                    reader.Close();
+                }
             }
             return output;
         }
